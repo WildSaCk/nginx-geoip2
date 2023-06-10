@@ -35,9 +35,9 @@ jobs:
           docker pull wisonic/nginx-geoip2
           old_version=`docker run --rm wisonic/nginx-geoip2 nginx -v 2>&1 | grep version | awk -F/ '{print $2}'`
           echo $old_version
-          if [ "$cur_version" = "$old_version" ];then
-            ls -al
-            #docker build -t wisonic/nginx-geoip2 .
-            #docker push wisonic/nginx-geoip2
+          if [ "$cur_version" != "$old_version" ];then
+            docker login -u wisonic -p $docker_hub_token
+            docker build -t wisonic/nginx-geoip2 .
+            docker push wisonic/nginx-geoip2
           fi
     
