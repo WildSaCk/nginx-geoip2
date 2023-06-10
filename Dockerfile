@@ -1,7 +1,7 @@
 FROM nginx:alpine as builder
 
 WORKDIR /root
-RUN apk add --no-cache git gcc g++ make libmaxminddb-dev pcre-dev zlib-dev && \
+RUN apk update && apk upgrade && apk add --no-cache git gcc g++ make libmaxminddb-dev pcre-dev zlib-dev && \
     git clone https://github.com/leev/ngx_http_geoip2_module.git && \
     version=`nginx -v 2>&1 | xargs echo | awk -F/ '{print $2}'` && \
     wget http://nginx.org/download/nginx-$version.tar.gz && \
