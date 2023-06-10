@@ -11,5 +11,5 @@ RUN apk update && apk upgrade && apk add --no-cache git gcc g++ make libmaxmindd
 
 FROM nginx:alpine
 
-RUN apk --no-cache add libmaxminddb
+RUN apk update && apk upgrade && apk --no-cache add libmaxminddb
 COPY --from=builder /root/nginx/objs/ngx_http_geoip2_module.so /root/nginx/objs/ngx_stream_geoip2_module.so /etc/nginx/modules/
