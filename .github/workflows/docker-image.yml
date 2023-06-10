@@ -25,4 +25,19 @@ jobs:
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         sudo apt-get update
         sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-        sudo docker run hello-world
+    - name: check if nginx alpine docker image update
+      env:
+        docker_hub_token: ${{ secrets.DOCKER_HUB_TOKEN }}
+      run: |
+        docker pull nginx:alpine
+        cur_version=`docker run --rm nginx:alpine nginx -v 2>&1 | grep version | awk -F/ '{print $2}'`
+        echo $cur_version
+        docker login -u wisonic -p ${docker_hub_token}
+        docker pull wisonic/nginx-geoip2
+        old_version=`docker run --rm wisonic/nginx-geoip2 nginx -v 2>&1 | grep version | awk -F/ '{print $2}'`
+        echo $old_version
+        if [ "$cur_version" = "$old_version" ];then
+          echo "eeeeeeeeeeeeeeeeeeeeeeee"
+        else
+          echo "nnnnnnnnnnnnnnnnnnnnnnnn"
+        fi
